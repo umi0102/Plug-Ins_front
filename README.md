@@ -4,7 +4,7 @@
 
 ## 技术栈
 
-该项目使用webpack构建react应用，语言使用typescript，封装fetch和常用组件。
+该项目使用webpack构建react应用，语言使用typescript，封装fetch和常用组件，确保你的电脑拥有nodejs环境。
 
 ### `npm install`
 
