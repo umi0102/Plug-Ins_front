@@ -2,7 +2,7 @@
  * @Author: fangjiwei fangjiwei6354_xm.cicdi@chinaccs.cn
  * @Date: 2022-11-15 16:00:16
  * @LastEditors: fangjiwei fangjiwei6354_xm.cicdi@chinaccs.cn
- * @LastEditTime: 2022-11-16 17:03:03
+ * @LastEditTime: 2022-11-17 00:15:24
  * @FilePath: \bugfixer\src\pages\MainLogin\index.tsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -38,9 +38,9 @@ const MainLogin: React.FC = () => {
                                     <Tabs.TabPane className='pwdContainer' tab="密码登录" key="1">
                                         <Input className='pwdItem' placeholder='邮箱/手机号' onChange={(e) => {
                                             if (!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(e.target.value))) {
-                                                setPhone(1)
-                                            } else {
                                                 setPhone(0)
+                                            } else {
+                                                setPhone(Number(e.target.value))
                                             }
                                         }}></Input>
                                         <Input className='pwdItem' type='password' placeholder='密码' suffix={<div onClick={() => {
@@ -53,16 +53,17 @@ const MainLogin: React.FC = () => {
                                     </Tabs.TabPane>
                                 </Tabs>
                                 <div className='warningTextContainer'>
-                                    <div className='warningText'>{phoneStr == 0 ? "" : "请输入格式正确的手机号"}</div>
+                                    <div className='warningText'>{phoneStr != 0 ? "" : "请输入格式正确的手机号"}</div>
                                 </div>
 
                                 <Button className='loginButton' onClick={() => {
                                     requestjson({
-                                        url:"/api/user/projects",
+                                        url:"/user/login",
                                         data:{
-                                            
+                                            username:phoneStr.toString(),
+                                            password:"123456789"
                                         },
-                                        method:"get"
+                                        method:"post"
                                     }).then(res=>{
                                         console.log(res);
                                         
