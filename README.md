@@ -1,33 +1,22 @@
 # 概述
 
-该项目是一个开发者与测试人员的的协同平台。项目线上地址[http://81.68.254.93:999](http://81.68.254.93:999)，让git见证我们一起成长。
+该项目是一个开发者与测试人员的的协同平台。项目线上地址[http://81.68.254.93:999](http://81.68.254.93:999)。
 
 ## 技术栈
 
-该项目使用webpack构建react应用，语言使用typescript，，封装fetch和常用组件。
+该项目使用webpack构建react应用，语言使用typescript，封装fetch和常用组件。
+
+### `npm install`
+
+安装应用必要依赖
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+启动项目
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+打包项目
 
 ### `npm run eject`
 
