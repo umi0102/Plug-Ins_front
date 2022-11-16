@@ -2,7 +2,7 @@
  * @Author: fangjiwei fangjiwei6354_xm.cicdi@chinaccs.cn
  * @Date: 2022-11-16 15:46:20
  * @LastEditors: fangjiwei fangjiwei6354_xm.cicdi@chinaccs.cn
- * @LastEditTime: 2022-11-16 22:10:58
+ * @LastEditTime: 2022-11-16 23:01:27
  * @FilePath: \bugfixer\src\utils\request.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -26,7 +26,7 @@ export function requestjson(config:requestjson) {
                 },
                 method:config.method,
                 //@ts-ignore
-                config.method=="post"?{body:JSON.stringify(config.data)}:""
+                // config.method=="post"?{body:JSON.stringify(config.data)}:""
             }).then(res=>{
                 resolve(res.json())
             }).catch(err=>{
