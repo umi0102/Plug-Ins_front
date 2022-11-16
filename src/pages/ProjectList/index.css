@@ -1,0 +1,53 @@
+.itemcontanier {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+
+    width: 20%;
+    height: 200px;
+    justify-content: center;
+
+}
+
+.itemImage {
+    height: 100px;
+    width: 100px;
+}
+
+.itemText {
+    font-size: 18px;
+    margin-top: 5px;
+}
+
+.nav-right {
+    width: 75%;
+    padding: 10px;
+    display: flex;
+    /* 默认是水平的 */
+    flex-direction: row;
+    /*设置子元素的排列方向*/
+    flex-wrap: wrap;
+    /*溢出则换行*/
+}
+
+.contanier {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.shutdownIcon {
+    height: 20px;
+    width: 20px;
+    top: 35px;
+    position: absolute;
+    margin-left: 120px;
+    transition: all 0.6s;
+
+}
+
+.shutdownIcon:hover {
+    transform: rotate(90deg);
+}

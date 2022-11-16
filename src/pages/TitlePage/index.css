@@ -1,0 +1,26 @@
+.naviContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.menuItem{
+    width: 98%;
+    align-items: center;
+}
+.loginImg{
+    height: 30px;
+    width: 30px;
+}
+.imgContainer{
+    width: 200px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px #f0f0f0 solid;
+    height: 46px;
+    
+}
+.loginName{
+    margin-left: 15px;
+}

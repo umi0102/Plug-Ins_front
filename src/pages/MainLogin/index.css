@@ -1,0 +1,157 @@
+.back {
+    height: 100vh;
+    width: 100vw;
+    filter: blur(20px);
+    background-size: cover;
+    transform: scale(1.1);
+    z-index: -999;
+}
+
+.container {
+    overflow: hidden;
+    position: absolute;
+}
+
+.content {
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.contentItems {
+    display: flex ;
+    flex-direction: column;
+    justify-content: center;
+}
+.logoNameContainer{
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    margin: 2%;
+    align-items: center;
+}
+.logoImg{
+    height: 30px;
+    width: 30px;
+}
+.logoText{
+    font-size: 20px;
+    font-weight: 600;
+    margin-left: 10px;
+    text-align: center;
+    color: white;
+}
+.centerContainer{
+    align-items:center;
+    align-self: center;
+    height: 80vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100vw;
+}
+.leftItem{
+    font-size: 32px;
+    color: #FFF;
+    font-weight: bold;
+    line-height: 40px;
+}
+
+  .leftContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 50px;
+    margin-left: 100px;
+}
+.leftBottom{
+    color: #FFF;
+    font-size: 16px;
+    line-height: 24px;
+    margin: 14px;
+}
+.rightItem{
+    height: 700px;
+    width: 500px;
+    background-color: #FFF;
+    border-radius: 20px;
+    margin-right: 100px;
+    display: flex;
+    flex-direction: column;
+    
+}
+.loginTextName{
+    display:table-cell;
+    vertical-align:bottom; 
+    font-size: 40px;
+    line-height: 48px;
+    margin-bottom: 32px;
+    color: #353030;
+    font-weight: 800;
+    font-family: "Helvetica Neue", "Helvetica", "Arial", "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif !important;
+}
+.passwordTextActive{
+    color: #353030;
+    font-weight: bold;
+    font-size: 20px;
+}
+.loginType{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 40px;
+}
+.passwordText{
+    color: #353030;
+    font-weight: bold;
+    font-size: 10px;
+}
+.pwdContainer{
+    width: 350px;
+}
+.dlText{
+    width: 350px;
+    
+}
+.loginTypeContainer{
+    margin-top: 20px;
+}
+.pwdItem{
+    margin-top: 10px;
+    border-radius: 10px;
+    height: 45px;
+}
+.loginButton{
+    margin-top: 25px;
+    width: 350px;
+    height: 45px;
+    border-radius: 10px;
+}
+.warningText{
+    color: #FE4066;
+    line-height: 28px;
+    font-size: 12px;
+}
+.warningTextContainer{
+    width: 350px;
+    display: flex;
+    flex-direction: row;
+}
+.nophoneText{
+    line-height: 28px;
+    font-size: 12px;
+}
+.loginText{
+    color: #FE4066;
+    line-height: 28px;
+    font-size: 12px;
+    text-decoration: underline;
+}
+.noPhoneContainer{
+    width: 350px;
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px
+}
+
