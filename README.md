@@ -1,10 +1,10 @@
-# Getting Started with Create React App
+# 概述
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+该项目是一个开发者与测试人员的的协同平台。项目线上地址[http://81.68.254.93:999](http://81.68.254.93:999)，让git见证我们一起成长。
 
-## Available Scripts
+## 技术栈
 
-In the project directory, you can run:
+该项目使用webpack构建react应用，语言使用typescript，，封装fetch和常用组件。
 
 ### `npm start`
 
