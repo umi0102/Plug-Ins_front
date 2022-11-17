@@ -2,7 +2,7 @@
  * @Author: fangjiwei fangjiwei6354_xm.cicdi@chinaccs.cn
  * @Date: 2022-11-15 16:00:16
  * @LastEditors: fangjiwei fangjiwei6354_xm.cicdi@chinaccs.cn
- * @LastEditTime: 2022-11-17 18:53:12
+ * @LastEditTime: 2022-11-18 00:15:17
  * @FilePath: \bugfixer\src\pages\MainLogin\index.tsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -16,7 +16,7 @@ const MainLogin: React.FC = () => {
     const [pwdStr, setPwd] = useState<any>()
     const [checkStr, setCheck] = useState<any>()
     const [loginType, setLogin] = useState<any>("1")
-    const [newpwd,setNewPwd] = useState<any>(0)
+    const [newpwd, setNewPwd] = useState<any>(0)
     const timerCount = 60
     const [count, setCount] = useState(timerCount)
     const timerRef = useRef(null)
@@ -55,6 +55,20 @@ const MainLogin: React.FC = () => {
             }
         })
     }
+    //发送验证码
+    function SendCode(params: any) {
+        requestjson({
+            url: "/user/sendcode",
+            data: {
+                phone:phoneStr
+            },
+            method: "post"
+        }).then((res:any)=>{
+            if(res.code == 200){
+                
+            }
+        })
+    }
 
     return (
         <div className='container'>
@@ -70,12 +84,12 @@ const MainLogin: React.FC = () => {
                             <div className='leftItem'>设计， 1 + 1 {">"} 2！</div>
                             <div className='leftBottom'>高效设计联调平台，产品经理用 RP，UI设计师用 DT</div>
                         </div>
-                        <div className={newpwd==0?"rightItem":"rightItemMax"}>
+                        <div className={newpwd == 0 ? "rightItem" : "rightItemMax"}>
                             <div className='loginType'>
                                 <div className='dlText'>
                                     <h1 className='loginTextName'>登录</h1>
                                 </div>
-                                <Tabs className='loginTypeContainer' activeKey={loginType} onTabClick={(e)=>{
+                                <Tabs className='loginTypeContainer' activeKey={loginType} onTabClick={(e) => {
                                     setLogin(e.toString())
                                     setNewPwd(0)
                                 }}>
@@ -113,7 +127,7 @@ const MainLogin: React.FC = () => {
                                         }}>{count === timerCount ? "发送验证码" : `还剩${count}秒`}</div>} onChange={(e) => {
                                             setCheck(e.target.value)
                                         }}></Input>
-                                        <Input className={newpwd=="0"?'none':"pwdItem"} type='password' placeholder='输入新密码' onChange={(e) => {
+                                        <Input className={newpwd == "0" ? 'none' : "pwdItem"} type='password' placeholder='输入新密码' onChange={(e) => {
                                             if (e.target.value.length < 7) {
                                                 setPwd(0)
                                             } else {
@@ -130,16 +144,16 @@ const MainLogin: React.FC = () => {
                                 </div>
 
                                 <Button className='loginButton' onClick={(e) => {
-                                    if(loginType == "1"){
+                                    if (loginType == "1") {
                                         //正常登陆                                       
-                                        LoginByPhonePwd(e) 
-                                    }else if(loginType == "2"&&newpwd!=1){
+                                        LoginByPhonePwd(e)
+                                    } else if (loginType == "2" && newpwd != 1) {
                                         console.log("yzm");
                                         //验证码登陆
-                                    }else if(newpwd==1){
+                                    } else if (newpwd == 1) {
                                         console.log("wjmm");
                                         //忘记密码验证码登陆，
-                                    }else{
+                                    } else {
                                         return
                                     }
                                 }} type="primary" size='large'>登录</Button>
