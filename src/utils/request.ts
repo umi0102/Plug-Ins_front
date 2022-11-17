@@ -2,7 +2,7 @@
  * @Author: fangjiwei fangjiwei6354_xm.cicdi@chinaccs.cn
  * @Date: 2022-11-16 15:46:20
  * @LastEditors: fangjiwei fangjiwei6354_xm.cicdi@chinaccs.cn
- * @LastEditTime: 2022-11-17 00:16:02
+ * @LastEditTime: 2022-11-17 11:13:08
  * @FilePath: \bugfixer\src\utils\request.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -21,7 +21,7 @@ export function requestjson(config:requestjson) {
         if(config.method == "post"){
             fetch(target+config.url,{
                 headers:{
-                    "Content-Type":"application/json; charset=utf-8",
+                    "Content-Type":"application/x-www-form-urlencoded;charset:utf-8",
                     'Authorization':token
                 },
                 method:config.method,
@@ -37,7 +37,7 @@ export function requestjson(config:requestjson) {
         }else if(config.method == "get"){
             fetch(target+config.url,{
                 headers:{
-                    "Content-Type":"application/json; charset=utf-8",
+                    "Content-Type":"application/x-www-form-urlencoded;charset:utf-8",
                     'Authorization':token
                 },
                 method:config.method,

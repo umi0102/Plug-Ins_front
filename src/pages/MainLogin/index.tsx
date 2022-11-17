@@ -2,7 +2,7 @@
  * @Author: fangjiwei fangjiwei6354_xm.cicdi@chinaccs.cn
  * @Date: 2022-11-15 16:00:16
  * @LastEditors: fangjiwei fangjiwei6354_xm.cicdi@chinaccs.cn
- * @LastEditTime: 2022-11-17 00:19:48
+ * @LastEditTime: 2022-11-17 11:09:38
  * @FilePath: \bugfixer\src\pages\MainLogin\index.tsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -14,7 +14,7 @@ import { requestjson } from '../../utils/request';
 
 const MainLogin: React.FC = () => {
     const [phoneStr, setPhone] = useState(0)
-
+    const [pwdStr, setPwd] = useState<any>()
     return (
         <div className='container'>
             <img className='back' src={require("./back.png")}></img>
@@ -46,22 +46,30 @@ const MainLogin: React.FC = () => {
                                         <Input className='pwdItem' type='password' placeholder='密码' suffix={<div onClick={() => {
                                             console.log("3312123");
 
-                                        }}>忘记密码</div>}></Input>
+                                        }}>忘记密码</div>} onChange={(e) => {
+                                            if (e.target.value.length < 7) {
+                                                setPwd(0)
+                                            } else {
+                                                setPwd(e.target.value)
+                                            }
+                                        }}></Input>
                                     </Tabs.TabPane>
                                     <Tabs.TabPane className='pwdContainer' tab="验证码登录" key="2">
                                         Content of Tab Pane 2
                                     </Tabs.TabPane>
                                 </Tabs>
                                 <div className='warningTextContainer'>
-                                    <div className='warningText'>{phoneStr != 0 ? "" : "请输入格式正确的手机号"}</div>
+                                    <div className='warningText'>
+                                        {phoneStr != 0 ? pwdStr!=0? "":"请输入格式正确的密码" : "请输入格式正确的手机号"}
+                                    </div>
                                 </div>
 
                                 <Button className='loginButton' onClick={() => {
                                     requestjson({
                                         url:"/user/login",
                                         data:{
-                                            username:phoneStr.toString(),
-                                            password:"123456789"
+                                            phone:phoneStr.toString(),
+                                            password:pwdStr.toString()
                                         },
                                         method:"post"
                                     }).then(res=>{
