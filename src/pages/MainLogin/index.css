@@ -71,7 +71,19 @@
     margin: 14px;
 }
 .rightItem{
-    height: 500px;
+    height: 450px;
+    width: 500px;
+    background-color: #FFF;
+    border-radius: 20px;
+    margin-right: 100px;
+    display: flex;
+    flex-direction: column;
+    
+}
+.rightItemMax{
+    transition: min-height 1s ease;
+    height: 450px;
+    min-height: 500px;
     width: 500px;
     background-color: #FFF;
     border-radius: 20px;
@@ -127,6 +139,9 @@
     width: 350px;
     height: 45px;
     border-radius: 10px;
+}
+.none{
+    display: none;
 }
 .warningText{
     color: #FE4066;
