@@ -169,4 +169,7 @@
     flex-direction: row;
     margin-top: 10px
 }
-
+.ModalItem{
+    margin-top: 300px;
+    border-radius: 100px !important;
+}
