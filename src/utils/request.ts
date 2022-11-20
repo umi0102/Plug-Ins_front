@@ -29,7 +29,7 @@ export function requestjson(config: requestjson) {
         if (config.method == "post") {
             fetch(target + config.url, {
                 headers: {
-                    "Content-Type": "application/x-www-form-urlencoded;charset:utf-8",
+                    "Content-Type": "application/json",
                     // 'Authorization':token
                 },
                 method: config.method,

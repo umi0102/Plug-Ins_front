@@ -43,7 +43,7 @@ export function LoginByCode(phoneStr: any, checkStr: any) {
 }
 //忘记密码登陆
 export function LoginByForget(phoneStr: any, checkStr: any, pwdStr: any) {
-    requestjson({
+    return requestjson({
         url: "/user/loginbycode",
         data: {
             phone: phoneStr,
@@ -57,4 +57,38 @@ export function LoginByForget(phoneStr: any, checkStr: any, pwdStr: any) {
         }
     })
 }
+//注册发送验证码
 
+export function LoginByRegCheck(phoneStr:any) {
+    return requestjson({
+        url: "/user/sendcode",
+        data: {
+            phone: phoneStr,
+        },
+        method: "post"
+    })
+}
+//注册
+export function Register(phoneStr:any,code:any,pwd:any,name:any) {
+    return requestjson({
+        url: "/user/regist",
+        data: {
+            phone: phoneStr,
+            code:code,
+            password:pwd,
+            name:name
+        },
+        method: "post"
+    })
+}
+
+//验证手机号码是否可用
+export function CheckPhone(phoneStr:any) {
+    return requestjson({
+        url: "/user/regist",
+        data: {
+            phone: phoneStr,
+        },
+        method: "post"
+    })
+}

@@ -9,7 +9,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import "./index.css";
 import { Button, Input, Modal, Tabs } from 'antd';
-import { LoginByCode, LoginByForget, LoginByPhonePwd, SendCode } from './service';
+import { CheckPhone, LoginByCode, LoginByForget, LoginByPhonePwd, LoginByRegCheck, Register, SendCode } from './service';
 import { message } from 'antd';
 
 const MainLogin: React.FC = () => {
@@ -28,8 +28,10 @@ const MainLogin: React.FC = () => {
         SendCode(PageState.UserPhone).then((res: any) => {
             if (res.code == "FP00000") {
                 success("验证码发送成功")
+            } else if (res.code == "FP09703") {
+                error("当日发送验证码次数超限，请联系管理员")
             } else {
-                error("验证码发送失败，请联系管理员！")
+                error("验证码发送失败，请联系管理员")
             }
         })
         cutCount()
@@ -41,6 +43,8 @@ const MainLogin: React.FC = () => {
             //@ts-ignore
             clearInterval(timerRef.current)
             setCount(timerCount)
+            setPageState({ ...PageState, AllowSend: true })
+
         }
     }, [count])
 
@@ -69,6 +73,10 @@ const MainLogin: React.FC = () => {
         UserPhone: "",
         UserPwd: "",
         Code: "",
+        NextClick: false,
+        UserNameCheck: false,
+        AllowSend: true,
+        Username: "",
 
     })
     return (
@@ -86,13 +94,13 @@ const MainLogin: React.FC = () => {
                             <div className='leftBottom'>高效设计联调平台，产品经理用 RP，UI设计师用 DT</div>
                         </div>
 
-                        <div className={PageState.LoginType == "忘记密码登陆" ? "rightItemMax" : PageState.LoginType == "注册登陆" ? "rightItemReg" : "rightItem"}>
+                        <div className={PageState.LoginType == "忘记密码登陆" ? "rightItemMax" : (PageState.LoginType == "注册登陆" ? (PageState.NextClick ? "rightItemRegNextClick" : "rightItemReg") : "rightItem")}>
                             <div className='loginType'>
                                 <div className='dlText'>
                                     <h1 className='loginTextName'>{PageState.LoginType == "注册登陆" ? "注册" : "登陆"}</h1>
                                 </div>
 
-                                <div className={PageState.LoginType == "注册登陆" ? "phoneCheckContainer" : "none"}>
+                                <div className={(PageState.LoginType == "注册登陆" && !PageState.NextClick) ? "phoneCheckContainer" : "none"}>
                                     <Input className='phoneCheck' placeholder='邮箱/手机号' autoComplete="new-password" onChange={(e) => {
                                         if (!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(e.target.value))) {
                                             setPageState({ ...PageState, PhoneCheck: false })
@@ -100,7 +108,36 @@ const MainLogin: React.FC = () => {
                                         }
                                         setPageState({ ...PageState, UserPhone: e.target.value, PhoneCheck: true })
                                     }}></Input>
+
                                 </div>
+                                <div className={PageState.NextClick == true ? "phoneCheckContainer" : "none"}>
+                                    <Input className='phoneCheck' placeholder='用户名' autoComplete="new-password" onChange={(e) => {
+                                        if (e.target.value.length < 2) {
+                                            setPageState({ ...PageState, UserNameCheck: false })
+                                            return
+                                        }
+                                        setPageState({ ...PageState, UserNameCheck: true, Username: e.target.value })
+
+                                    }}></Input>
+                                    <Input className='phoneCheck' placeholder='输入验证码' autoComplete="new-password" onChange={(e) => {
+                                        setPageState({ ...PageState, Code: e.target.value })
+                                    }}></Input>
+                                    <Input className='pwdItem' type='password' placeholder='密码' autoComplete="new-password" onChange={(e) => {
+                                        if (e.target.value.length < 7) {
+                                            setPageState({ ...PageState, PwdCheck: false })
+                                            return
+                                        }
+                                        setPageState({ ...PageState, PwdCheck: true, UserPwd: e.target.value })
+
+                                    }}></Input>
+                                    <div className='warningTextContainer'>
+                                        <div className={'warningText'}>
+                                            {PageState.LoginType == "注册登陆" ? (PageState.UserNameCheck ? (PageState.PwdCheck ? "" : "输入正确长度的密码") : "昵称需大于两位") : ""}
+                                        </div>
+                                    </div>
+                                </div>
+
+
 
                                 <Tabs className={
                                     PageState.LoginType == "账号登陆" ? 'loginTypeContainer' : (PageState.LoginType == "验证码登陆" ? 'loginTypeContainer' : (PageState.LoginType == "注册登陆" ? "none" : 'loginTypeContainer'))}
@@ -139,8 +176,9 @@ const MainLogin: React.FC = () => {
                                         <Input className='pwdItem' placeholder='验证码' autoComplete="new-password" onChange={(e) => {
                                             setPageState({ ...PageState, Code: e.target.value })
                                         }} suffix={<div onClick={() => {
-                                            if (PageState.PhoneCheck) {
+                                            if (PageState.PhoneCheck && PageState.AllowSend) {
                                                 sendCode()
+                                                setPageState({ ...PageState, AllowSend: false })
                                             }
                                             return
                                         }}>{count === timerCount ? "发送验证码" : `还剩${count}秒`}</div>}></Input>
@@ -154,14 +192,18 @@ const MainLogin: React.FC = () => {
                                         }}></Input>
                                     </Tabs.TabPane>
                                 </Tabs>
-                                <div className='warningTextContainer'>
-                                    <div className='warningText'>
-                                        {PageState.PhoneCheck ? PageState.PwdCheck ? "" : "请输入格式正确的密码" : "请输入格式正确的手机号"}
+                                <div className={PageState.NextClick ? "none" : 'warningTextContainer'}>
+                                    <div className={'warningText'}>
+                                        {PageState.LoginType == "注册登陆" ? (PageState.PhoneCheck ? "" : "请输入格式正确的手机号")
+                                            : PageState.LoginType == "验证码登陆" ? (PageState.PhoneCheck ? "" : "请输入格式正确的手机号")
+                                                : (PageState.PhoneCheck ? PageState.PwdCheck ? "" : "请输入格式正确的密码" : "请输入格式正确的手机号")}
                                     </div>
                                 </div>
                                 {contextHolder}
                                 <Button className='loginButton' onClick={(e) => {
+
                                     if (PageState.LoginType == "账号登陆" && PageState.PhoneCheck && PageState.PwdCheck) {
+
                                         //正常登陆              
                                         LoginByPhonePwd(PageState.UserPhone, PageState.UserPwd).then((res: any) => {
                                             if (res.code == 200) {
@@ -176,32 +218,87 @@ const MainLogin: React.FC = () => {
 
                                         })
                                     } else if (PageState.LoginType == "验证码登陆" && PageState.PhoneCheck) {
-                                        console.log("yzm");
                                         LoginByCode(PageState.UserPhone, PageState.Code).then((res: any) => {
                                             if (res.code == 200) {
+                                                let userGlobalData: any = {
+                                                    phone: PageState.UserPhone.toString(),
+                                                    token: res.data
+                                                }
+                                                window.localStorage.setItem("userGlobalData", JSON.stringify(userGlobalData))
                                                 return success("登陆成功")
+                                                
                                             }
                                             error("验证码错误")
                                         })
                                     } else if (PageState.LoginType == "忘记密码登陆" && PageState.PhoneCheck && PageState.PwdCheck) {
-                                        console.log("wjmm");
-                                        LoginByForget(PageState.UserPhone, PageState.Code, PageState.UserPwd)
+                                        LoginByForget(PageState.UserPhone, PageState.Code, PageState.UserPwd).then((res:any)=>{
+                                            if(res.code == 200){
+                                                let userGlobalData: any = {
+                                                    phone: PageState.UserPhone.toString(),
+                                                    token: res.data
+                                                }
+                                                window.localStorage.setItem("userGlobalData", JSON.stringify(userGlobalData))
+                                                success("登陆成功")
+                                            }else{
+                                                error("登陆失败，请联系管理员")
+                                            }
+                                        })
+                                    } else if (PageState.LoginType == "注册登陆") {
+                                        if (!PageState.NextClick && PageState.PhoneCheck) {
+                                            setPageState({ ...PageState, UserPwd: "", Code: "" })
+                                            CheckPhone(PageState.UserPhone).then((res: any) => {
+                                                if (res.code == 200) {
+                                                    LoginByRegCheck(PageState.UserPhone).then((res: any) => {
+
+                                                        if (res.code == "FP00000") {
+                                                            success("验证码发送成功")
+                                                            setPageState({ ...PageState, NextClick: true })
+                                                        } else if (res.code == -2) {
+                                                            error("当前用户已注册")
+                                                        } else if (res.code == -1) {
+                                                            error("验证码已发送请等待")
+                                                        } else if (res.code == "FP09703") {
+                                                            error("当日发送验证码次数超限，请联系管理员")
+                                                        } else {
+                                                            error("验证码发送失败，请联系管理员")
+                                                        }
+                                                    })
+                                                }else{
+                                                    error("当前用户已注册")
+                                                }
+                                            })
+
+                                        } else if (PageState.PhoneCheck && PageState.PwdCheck) {
+                                            Register(PageState.UserPhone, PageState.Code, PageState.UserPwd, PageState.Username).then((res:any) => {
+                                                console.log(res);
+                                                if(res.code == 200){
+                                                    success("注册成功")
+                                                    let userGlobalData: any = {
+                                                        phone: PageState.UserPhone.toString(),
+                                                        token: res.data
+                                                    }
+                                                    window.localStorage.setItem("userGlobalData", JSON.stringify(userGlobalData))
+                                                }else{
+                                                    error("注册失败，请联系管理员")
+                                                }
+                                            })
+                                            return
+                                        }
+
                                     } else {
                                         return
                                     }
-                                }} type="primary" size='large'>登陆</Button>
+                                }} type="primary" size='large'>{PageState.LoginType == "注册登陆" ? (PageState.NextClick == true ? "注册" : "发送验证码") : "登陆"}</Button>
                                 <div className='noPhoneContainer'>
                                     <div className='nophoneText'>{PageState.LoginType == "注册登陆" ? "已有账号" : "没有账号?"}</div>
                                     <div className='loginText' onClick={() => {
+                                        setPageState({ ...PageState, LoginType: "注册登陆", NextClick: false, UserPhone: null, UserPwd: "", Code: "", PhoneCheck: false })
+
                                         if (PageState.LoginType == "注册登陆") {
-                                            return setPageState({ ...PageState, LoginType: "账号登陆" })
+                                            return setPageState({ ...PageState, LoginType: "账号登陆", NextClick: false, UserPhone: null, UserPwd: "", Code: "", PhoneCheck: false })
                                         }
-                                        setPageState({ ...PageState, LoginType: "注册登陆" })
                                     }}>{PageState.LoginType == "注册登陆" ? "立即登陆" : "立即注册"}</div>
-
                                 </div>
-
-
                             </div>
                         </div>
                     </div>

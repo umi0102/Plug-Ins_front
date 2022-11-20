@@ -81,7 +81,17 @@
     
 }
 .rightItemReg{
-    height: 350px;
+    height: 320px;
+    width: 500px;
+    background-color: #FFF;
+    border-radius: 20px;
+    margin-right: 100px;
+    display: flex;
+    flex-direction: column;
+    
+}
+.rightItemRegNextClick{
+    height: 430px;
     width: 500px;
     background-color: #FFF;
     border-radius: 20px;
@@ -204,7 +214,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}P
+}
 .registName{
     display:table-cell;
     vertical-align:bottom; 
