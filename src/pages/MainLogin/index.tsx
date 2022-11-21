@@ -10,6 +10,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import "./index.css";
 import { Button, Input, Modal, Tabs } from 'antd';
 import { CheckPhone, LoginByCode, LoginByForget, LoginByPhonePwd, LoginByRegCheck, Register, SendCode } from './service';
+
 import { message } from 'antd';
 
 const MainLogin: React.FC = () => {
@@ -201,17 +202,19 @@ const MainLogin: React.FC = () => {
                                 </div>
                                 {contextHolder}
                                 <Button className='loginButton' onClick={(e) => {
-
+                                    let setToken = (res: any)=>{
+                                        let userGlobalData: any = {
+                                            phone: PageState.UserPhone.toString(),
+                                            token: res.data
+                                        }
+                                        window.localStorage.setItem("userGlobalData", JSON.stringify(userGlobalData))
+                                    }
                                     if (PageState.LoginType == "账号登陆" && PageState.PhoneCheck && PageState.PwdCheck) {
-
+                                        
                                         //正常登陆              
                                         LoginByPhonePwd(PageState.UserPhone, PageState.UserPwd).then((res: any) => {
                                             if (res.code == 200) {
-                                                let userGlobalData: any = {
-                                                    phone: PageState.UserPhone.toString(),
-                                                    token: res.data
-                                                }
-                                                window.localStorage.setItem("userGlobalData", JSON.stringify(userGlobalData))
+                                                setToken(res);
                                                 return success("登陆成功")
                                             }
                                             error("用户名或密码错误")
@@ -220,11 +223,7 @@ const MainLogin: React.FC = () => {
                                     } else if (PageState.LoginType == "验证码登陆" && PageState.PhoneCheck) {
                                         LoginByCode(PageState.UserPhone, PageState.Code).then((res: any) => {
                                             if (res.code == 200) {
-                                                let userGlobalData: any = {
-                                                    phone: PageState.UserPhone.toString(),
-                                                    token: res.data
-                                                }
-                                                window.localStorage.setItem("userGlobalData", JSON.stringify(userGlobalData))
+                                                setToken(res);
                                                 return success("登陆成功")
                                                 
                                             }
@@ -233,11 +232,7 @@ const MainLogin: React.FC = () => {
                                     } else if (PageState.LoginType == "忘记密码登陆" && PageState.PhoneCheck && PageState.PwdCheck) {
                                         LoginByForget(PageState.UserPhone, PageState.Code, PageState.UserPwd).then((res:any)=>{
                                             if(res.code == 200){
-                                                let userGlobalData: any = {
-                                                    phone: PageState.UserPhone.toString(),
-                                                    token: res.data
-                                                }
-                                                window.localStorage.setItem("userGlobalData", JSON.stringify(userGlobalData))
+                                                setToken(res);
                                                 success("登陆成功")
                                             }else{
                                                 error("登陆失败，请联系管理员")
@@ -273,11 +268,7 @@ const MainLogin: React.FC = () => {
                                                 console.log(res);
                                                 if(res.code == 200){
                                                     success("注册成功")
-                                                    let userGlobalData: any = {
-                                                        phone: PageState.UserPhone.toString(),
-                                                        token: res.data
-                                                    }
-                                                    window.localStorage.setItem("userGlobalData", JSON.stringify(userGlobalData))
+                                                    setToken(res);
                                                 }else{
                                                     error("注册失败，请联系管理员")
                                                 }
