@@ -19,6 +19,8 @@ const envTarget = {
 
 export const globalConfig = {
     serverTarget: envTarget[mode].target,
+
+    token:"",
     fetchConfig: {
         defaultTimeout: 3,//默认请求超时时间
     }

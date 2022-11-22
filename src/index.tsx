@@ -30,12 +30,10 @@ const root = ReactDOM.createRoot(
 
   document.getElementById('root') as HTMLElement
 );
-useEffect(()=>{
-  console.log("dsdasdadadasdadadadadadas");
-},[])
+
 root.render(
   
-  <React.StrictMode>
+  <React.Fragment>
     {/* <BrowserRouter>
     <NavTop></NavTop>
     <Routes>
@@ -45,7 +43,7 @@ root.render(
 				</Routes>
     </BrowserRouter> */}
     <MainLogin></MainLogin>
-  </React.StrictMode>
+  </React.Fragment>
 );
 
 // If you want to start measuring performance in your app, pass a function

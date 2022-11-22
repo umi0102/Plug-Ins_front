@@ -36,7 +36,7 @@ const Request = (function() {
             host: globalConfig.serverTarget,
             headers: {
                 Content_Type: Content_Type.application$json,
-                // Authorization:token
+                // Authorization:globalConfig.userinfo.token
             },
             timeout: globalConfig.fetchConfig.defaultTimeout*1000
         },
@@ -67,8 +67,12 @@ const Request = (function() {
                 }
                 if (data && method == 'post') {
                     let Content_type = headers0["Content-Type"];
+                    console.log(Content_type,"1");
+                    console.log(data,"2");
 
-                    fetch_data.body = this.__getBody(Content_type, data);
+                    console.log(fetch_data.body,"3");
+                    
+                    fetch_data.body = this.__getBody(Content_type==(null||undefined)?"application/json":Content_type, data);
                 }
                 url = this.config.host + url;
                 url = url.split("#")[0];

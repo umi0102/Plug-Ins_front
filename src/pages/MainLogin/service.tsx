@@ -98,3 +98,14 @@ export function CheckPhone(phoneStr:any) {
         },
     )
 }
+//单点登陆
+export function checkToken(token:string) {
+    return Request.post(
+        "/api/checkToken",
+        {
+            headers:{
+                Authorization:token
+            }
+        }
+    )
+}
