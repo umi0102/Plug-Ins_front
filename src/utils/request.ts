@@ -2,11 +2,10 @@
  * @Author: fangjiwei fangjiwei6354_xm.cicdi@chinaccs.cn
  * @Date: 2022-11-16 15:46:20
  * @LastEditors: fangjiwei fangjiwei6354_xm.cicdi@chinaccs.cn
- * @LastEditTime: 2022-11-17 14:40:19
+ * @LastEditTime: 2022-11-22 17:08:24
  * @FilePath: \bugfixer\src\utils\request.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
-// let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IuWdpOWdpGRkIiwiSXNBZG1pbiI6ZmFsc2UsImV4cCI6MTY2ODU5MjcwMX0.yW08h8TDwTgQUwYnEg6U6wqkP8c4MmjXGbGxsLkB3F0"
 
 import { globalConfig } from "./config";
 
@@ -19,7 +18,6 @@ enum Content_Type {
 interface reqheaders {
     Content_Type?: Content_Type,
     Authorization?: string,
-
 }
 
 interface requestjson {
