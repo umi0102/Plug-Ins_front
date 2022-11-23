@@ -2,7 +2,7 @@
  * @Author: fangjiwei fangjiwei6354_xm.cicdi@chinaccs.cn
  * @Date: 2022-11-15 16:00:16
  * @LastEditors: fangjiwei fangjiwei6354_xm.cicdi@chinaccs.cn
- * @LastEditTime: 2022-11-18 21:42:29
+ * @LastEditTime: 2022-11-23 15:11:59
  * @FilePath: \bugfixer\src\pages\MainLogin\index.tsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -12,52 +12,16 @@ import { Button, Input, notification, Tabs } from 'antd';
 import { CheckPhone, checkToken, LoginByCode, LoginByForget, LoginByPhonePwd, LoginByRegCheck, Register, SendCode } from './service';
 
 import { message } from 'antd';
-
-
-interface notification {
-    content: string,
-    type: NotificationType;
-}
-type NotificationType = 'success' | 'info' | 'warning' | 'error';
+import { useNavigate } from 'react-router-dom';
 
 
 
 const LoginPart: React.FC = () => {
     //登陆缓存
-    useEffect(() => {
-        let token: any = localStorage.getItem("token")
+    
+    let navigate = useNavigate()
 
-        if (!token) {
-            console.log("无缓存");
-            return
-        }
-        checkToken(token).then((res: any) => {
-            if (res.code == 200) {
-                openNotification({
-                    content: "Token可用",
-                    type: "success"
-                })
 
-                return console.log("Token有效");
-            } else {
-                openNotification({
-                    content: "登录失效",
-                    type: "success"
-                })
-                localStorage.removeItem("token")
-                return console.log("Token失效");
-            }
-        })
-
-    }, [])
-
-    const [api, contextHolde] = notification.useNotification();
-    const openNotification = (e: notification) => {
-        api[e.type]({
-            message: "Notification Title",
-            description: e.content,
-        });
-    };
     const timerCount = 60
     const [count, setCount] = useState(timerCount)
     const timerRef = useRef(null)
@@ -123,7 +87,6 @@ const LoginPart: React.FC = () => {
     })
     return (
         <div className={PageState.LoginType == "忘记密码登陆" ? "rightItemMax" : (PageState.LoginType == "注册登陆" ? (PageState.NextClick ? "rightItemRegNextClick" : "rightItemReg") : "rightItem")}>
-            {contextHolde}
             <div className='loginType'>
                 <div className='dlText'>
                     <h1 className='loginTextName'>{PageState.LoginType == "注册登陆" ? "注册" : "登陆"}</h1>
@@ -232,6 +195,7 @@ const LoginPart: React.FC = () => {
                 <Button className='loginButton' onClick={(e) => {
                     let setToken = (res: any) => {
                         window.localStorage.setItem("token", res.data)
+                        navigate("/")
                     }
                     if (PageState.LoginType == "账号登陆" && PageState.PhoneCheck && PageState.PwdCheck) {
 
@@ -239,7 +203,7 @@ const LoginPart: React.FC = () => {
                         LoginByPhonePwd(PageState.UserPhone, PageState.UserPwd).then((res: any) => {
                             if (res.code == 200) {
                                 setToken(res);
-                                return success("登陆成功")
+                                return 
                             }
                             error("用户名或密码错误")
 
@@ -248,7 +212,7 @@ const LoginPart: React.FC = () => {
                         LoginByCode(PageState.UserPhone, PageState.Code).then((res: any) => {
                             if (res.code == 200) {
                                 setToken(res);
-                                return success("登陆成功")
+                                return 
 
                             }
                             error("验证码错误")
@@ -257,7 +221,8 @@ const LoginPart: React.FC = () => {
                         LoginByForget(PageState.UserPhone, PageState.Code, PageState.UserPwd).then((res: any) => {
                             if (res.code == 200) {
                                 setToken(res);
-                                success("登陆成功")
+                                return 
+                                
                             } else {
                                 error("登陆失败，请联系管理员")
                             }
@@ -291,8 +256,8 @@ const LoginPart: React.FC = () => {
                             Register(PageState.UserPhone, PageState.Code, PageState.UserPwd, PageState.Username).then((res: any) => {
                                 console.log(res);
                                 if (res.code == 200) {
-                                    success("注册成功")
                                     setToken(res);
+                                    return
                                 } else {
                                     error("注册失败，请联系管理员")
                                 }

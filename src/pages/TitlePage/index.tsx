@@ -6,6 +6,7 @@ import "./index.css"
 import {  
     useNavigate,
 } from 'react-router-dom';
+import { globalConfig } from '../../utils/config';
 
 
 const items: MenuProps['items'] = [
@@ -23,16 +24,16 @@ const items: MenuProps['items'] = [
     children: [
       {
         type: 'group',
-        children: [
-          {
-            label: 'Option 1',
-            key: '/o',
-          },
-          {
-            label: 'Option 2',
-            key: '/two',
-          },
-        ],
+        // children: [
+        //   {
+        //     label: 'Option 1',
+        //     key: '/o',
+        //   },
+        //   {
+        //     label: 'Option 2',
+        //     key: '/two',
+        //   },
+        // ],
       },
 
     ],
@@ -65,11 +66,11 @@ const list: MenuProps['items'] = [
     ),
   },
 ];
-const NavTop: React.FC = () => {
+const MainPage: React.FC = () => {
 
   const [current, setCurrent] = useState('mail');
   let navigate = useNavigate()
-
+  // if(globalConfig.userInfo)
   const [isLogin, setLogin] = useState(0)
   function onClick(e:any) {
     console.log(e);
@@ -98,4 +99,4 @@ return (
 );
 };
 
-export default NavTop;
+export default MainPage;
