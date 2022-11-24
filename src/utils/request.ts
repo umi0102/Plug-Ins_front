@@ -2,12 +2,14 @@
  * @Author: fangjiwei fangjiwei6354_xm.cicdi@chinaccs.cn
  * @Date: 2022-11-16 15:46:20
  * @LastEditors: fangjiwei fangjiwei6354_xm.cicdi@chinaccs.cn
- * @LastEditTime: 2022-11-22 17:08:24
+ * @LastEditTime: 2022-11-24 22:33:13
  * @FilePath: \bugfixer\src\utils\request.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 
+import { useNavigate } from "react-router-dom";
 import { globalConfig } from "./config";
+
 
 
 enum Content_Type {
@@ -26,7 +28,7 @@ interface requestjson {
     headers?: reqheaders,
     timeout?: number
 }
-// let token = localStorage.getItem("userGlobalData")
+
 const Request = (function() {
     return {
         Content_Type: Content_Type,
@@ -34,7 +36,7 @@ const Request = (function() {
             host: globalConfig.serverTarget,
             headers: {
                 Content_Type: Content_Type.application$json,
-                // Authorization:globalConfig.userinfo.token
+                Authorization:localStorage.getItem("userGlobalData")
             },
             timeout: globalConfig.fetchConfig.defaultTimeout*1000
         },
@@ -65,11 +67,6 @@ const Request = (function() {
                 }
                 if (data && method == 'post') {
                     let Content_type = headers0["Content-Type"];
-                    console.log(Content_type,"1");
-                    console.log(data,"2");
-
-                    console.log(fetch_data.body,"3");
-                    
                     fetch_data.body = this.__getBody(Content_type==(null||undefined)?"application/json":Content_type, data);
                 }
                 url = this.config.host + url;
@@ -99,6 +96,11 @@ const Request = (function() {
                         setTimeout(()=>{reject(new Error("request timeout"))}, timeout)
                     })
                 ]).then((res:any) => {
+                    if(res.status == 401){
+                        localStorage.removeItem("token");
+                        window.document.location.href = "/login";
+                        return
+                    }
                     return resolve(res.json())
                 })
                 

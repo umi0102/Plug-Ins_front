@@ -1,12 +1,13 @@
 import { Button, Dropdown } from 'antd';
 import { Menu } from 'antd';
 import type { MenuProps } from 'antd';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import "./index.css"
 import {  
     useNavigate,
 } from 'react-router-dom';
 import { globalConfig } from '../../utils/config';
+import { getUserinfo } from './service';
 
 
 const items: MenuProps['items'] = [
@@ -67,19 +68,23 @@ const list: MenuProps['items'] = [
   },
 ];
 const MainPage: React.FC = () => {
-
+  useMemo(()=>{
+    getUserinfo().then((res:any)=>{
+      setUserinfo(res.data)
+    })
+  },[])
+  
+  const [userinfo,setUserinfo] = useState<any>({userinfo_name: '未登录', userinfo_phone: '未登录', userinfo_usericon: "require(`./notLogin.png`)"})
   const [current, setCurrent] = useState('mail');
   let navigate = useNavigate()
+
   // if(globalConfig.userInfo)
-  const [isLogin, setLogin] = useState(0)
   function onClick(e:any) {
     console.log(e);
     setCurrent(e.key);
     navigate(e.key)
   }
-function Login() {
-  setLogin(1)
-}
+
 
 return (
   <div>
@@ -87,9 +92,9 @@ return (
     <div className='menuItem'>
       <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} ></Menu>
     </div>
-    <div className='imgContainer' onClick={Login}>
-      <img className='loginImg' src={isLogin === 1 ? require("./logined.png") : require("./notLogin.png")} alt="err"></img>
-      <div className='loginName'>{isLogin === 1 ? "联调大师" : "未登录"}</div>
+    <div className='imgContainer' >
+      <img className='loginImg' src={userinfo.userinfo_usericon} alt="err"></img>
+      <div className='loginName'>{userinfo.userinfo_name}</div>
     </div>
     
   </div>
@@ -100,3 +105,4 @@ return (
 };
 
 export default MainPage;
+
